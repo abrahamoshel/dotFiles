@@ -4,9 +4,20 @@ set background=dark
 colorscheme molokai
 let g:molokai_original = 1
 
-" Maximize: Vert and Horiz by default for macvim
 if has("gui_macvim")
-  set fuoptions=maxvert,maxhorz
+  " Toggle Comments
+  macmenu &Plugin.comment.Toggle key=<D-'>
+  " MacVim Open in fullscreen
+  au GUIEnter * set fullscreen
+
+  " Add PeepOpen
+  macmenu &File.New\ Tab key=<nop>
+  map <D-t> <Plug>PeepOpenVj
+
+  " Map Keys for NerdTree and TagbarToggle
+  nmap <D-/> :NERDTreeToggle<CR>
+  nmap <D-÷> :TagbarToggle<CR>
+
   set guifont=Monaco:h12
 elseif has("x11")
   set gfn=Monospace\ 11
@@ -15,3 +26,14 @@ elseif has("gui_win32")
 endif
 
 macmenu &File.New\ Tab key=<D-t>
+
+" Remove White Space in the file
+autocmd BufWritePre * :%s/\s\+$//e
+" Open NerdTree by default
+autocmd GUIEnter * :NERDTreeToggle
+
+" Open Tagbar by default
+autocmd GUIEnter * :TagbarToggle
+
+" Do a spell check
+autocmd BufWritePre * :set spell
