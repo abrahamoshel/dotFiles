@@ -9,6 +9,8 @@ if has("gui_macvim")
   macmenu &Plugin.comment.Toggle key=<D-'>
   " MacVim Open in fullscreen
   au GUIEnter * set fullscreen
+  " Set hamlc files to haml syntax
+   au BufRead,BufNewFile *.hamlc set ft=haml
 
   " Add PeepOpen
   macmenu &File.New\ Tab key=<nop>
