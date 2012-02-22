@@ -25,7 +25,12 @@ LIGHTNING_BOLT="⚡"
         MIDDOT="•"
      PLUSMINUS="±"
 
-
+function battery_charge {
+    /usr/sbin/ioreg -l | awk 'BEGIN{a=0;b=0}
+        $0 ~ "MaxCapacity" {a=$5;next}
+        $0 ~ "CurrentCapacity" {b=$5;nextfile}
+        END{printf("%.2f%%", b/a * 100)}'
+}
 function parse_git_branch {
   branch_pattern="^# On branch ([^${IFS}]*)"
   remote_pattern_ahead="# Your branch is ahead of"
@@ -101,13 +106,14 @@ function set_prompt {
     homebrew_prompt="${BROWN}Homebrew:${COLOR_NONE} debugging ${HOMEBREW_DEBUG_INSTALL}\n"
 
   git_prompt="$(parse_git_branch)"
-
-  export PS1="[\w] ${git_prompt}${COLOR_NONE}\n${homebrew_prompt}\$ "
-
+  battery_charge="$(battery_charge)"
+  power_right=$(printf "%$(($COLUMNS-${#PWD}))s" "${battery_charge}")
+  export PS1="[\w] ${git_prompt}${COLOR_NONE}${power_right}\n${homebrew_prompt}\$ "
   setWindowTitle "${PWD/$HOME/~}"
-}
-export PROMPT_COMMAND=set_prompt
 
+}
+
+export PROMPT_COMMAND=set_prompt
 
 function git-root {
   root=$(git rev-parse --git-dir 2> /dev/null)
