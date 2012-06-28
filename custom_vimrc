@@ -1,6 +1,7 @@
 " COLOR SUPPORT
 syntax enable
 set background=dark
+set mouse=a
 colorscheme molokai
 let g:molokai_original = 1
 
@@ -10,3 +11,8 @@ Bundle 'majutsushi/tagbar'
 Bundle 'mileszs/ack.vim'
 Bundle 'skammer/vim-css-color'
 Bundle 'itspriddle/vim-stripper'
+Bundle 'briancollins/vim-jst'
+Bundle 'tpope/vim-surround'
+Bundle 'Townk/vim-autoclose'
+Bundle 'hallison/vim-markdown'
+Bundle 'rasky/vim-markdown-preview'

@@ -2,6 +2,7 @@
 syntax enable
 set background=dark
 colorscheme molokai
+set transparency=15
 let g:molokai_original = 1
 
 if has("gui_macvim")
@@ -18,7 +19,7 @@ if has("gui_macvim")
 
   " Map Keys for NerdTree and TagbarToggle
   nmap <D-/> :NERDTreeToggle<CR>
-  nmap <D-÷> :TagbarToggle<CR>
+  nmap <D-Bslash> :TagbarToggle<CR>
 
   set guifont=Monaco:h12
 elseif has("x11")

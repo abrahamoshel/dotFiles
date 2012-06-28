@@ -6,7 +6,7 @@ alias console='rails console'
 alias server='rails server'
 alias rs='rails s'
 alias rc='rails c'
-
+alias rslolcat='rails server -d && tail -f log/* | lolcat'
 # Script / Console && Server
 sc () {
   if [ -f ./script/rails ]; then
@@ -46,7 +46,7 @@ alias rdbs='rake db:seed'
 alias rsp='rake spec $1'
 
 # Getting around my system
-alias ls='ls -al'
+alias ls='ls -al -G'
 alias d="cd ~/Dropbox"
 alias doc="cd ~/Documents"
 alias woork="cd ~/Dropbox/tukaiz"
@@ -58,3 +58,9 @@ alias gc='git commit -a'
 
 # RVM
 alias rvmrc="echo 'rvm use $1' > .rvmrc"
+
+function mkrvmrc () {
+  latest_ruby="$(rvm list strings | tail -n -1)"
+  echo "rvm $latest_ruby@$(basename $PWD) --create" > .rvmrc
+  source .rvmrc
+}
