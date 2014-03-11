@@ -1,9 +1,11 @@
 " COLOR SUPPORT
+let g:nerdtree_tabs_open_on_console_startup=1
+set t_Co=256
 syntax enable
 set background=dark
 set mouse=a
-colorscheme molokai
-let g:molokai_original = 1
+set clipboard=unnamed
+colorscheme monokai
 
 Bundle 'scrooloose/nerdtree'
 Bundle 'godlygeek/tabular'
@@ -16,3 +18,4 @@ Bundle 'tpope/vim-surround'
 Bundle 'Townk/vim-autoclose'
 Bundle 'hallison/vim-markdown'
 Bundle 'rasky/vim-markdown-preview'
+Bundle 'jistr/vim-nerdtree-tabs'

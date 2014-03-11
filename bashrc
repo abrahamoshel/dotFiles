@@ -1,3 +1,12 @@
+export EDITOR='subl -w'
+# export MAIN_EDITOR='subl'
+# alias subl=$MAIN_EDITOR
+
+# Store 10,000 history entries
+export HISTSIZE=10000
+# Don't store duplicates
+export HISTCONTROL=erasedups
+
 ## The prompt below gets ideas from the following:
     # http://briancarper.net/blog/570/git-info-in-your-zsh-prompt
     # http://github.com/adamv/dotfiles/blob/master/bashrc
@@ -115,7 +124,9 @@ function set_prompt {
   git_prompt="$(parse_git_branch)"
   battery_charge="" #$(battery_charge)"
   power_right="" #$(printf "%$(($COLUMNS-${#PWD}))s" "${battery_charge}")
-  export PS1="[\w] ${git_prompt}${COLOR_NONE}${power_right}\n${homebrew_prompt}${CYAN}∵ "
+  export CLICOLOR=1
+  export LSCOLORS=gxgxcxdxbxegedabagacad  # cyan directories
+  export PS1="[\w] ${git_prompt}${COLOR_NONE}${power_right}\n${homebrew_prompt}${CYAN}💀  "
   setWindowTitle "${PWD/$HOME/~}"
 
 }
@@ -149,4 +160,34 @@ fi
 if [ `brew --prefix`/etc/bash_completion.d/git-completion.bash  ]; then
     . `brew --prefix`/etc/bash_completion.d/git-completion.bash
 fi
+
+export BUNDLER_EDITOR=vim
+
+#config for autojump
+[[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
+# [[ -s ~/.autojump/etc/profile.d/autojump.bash ]] && source ~/.autojump/etc/profile.d/autojump.bash
+
+#add .ssh/id_rsa for deployments
+ssh-add
+
+# PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+
+# Setup chruby and having chruby automatically switch rubies in there is a .ruby-version file
+if [[ -e /usr/local/share/chruby ]]; then
+  # Load chruby
+  source '/usr/local/share/chruby/chruby.sh'
+
+  # Automatically switch rubies
+  source '/usr/local/share/chruby/auto.sh'
+
+  # need to get it working to bash it is for zsh right now
+  #source ~/.vim/chruby_gemset
+
+  # Set a default ruby if a .ruby-version file exists in the home dir
+  if [[ -f ~/.ruby-version ]]; then
+    chruby $(cat ~/.ruby-version)
+  fi
+fi
+
 

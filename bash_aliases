@@ -1,18 +1,9 @@
-# My Editor
-alias mvim='~/Dropbox/Vimlander/mvim'
-
-# Starting Rails
-alias console='rails console'
-alias server='rails server'
-alias rs='rails s'
-alias rc='rails c'
-alias rslolcat='rails server -d && tail -f log/* | lolcat'
 # Script / Console && Server
 sc () {
   if [ -f ./script/rails ]; then
-    rails c $@
+    bundle exec rails c $@
   else
-    ./script/console $@
+    bundle exec ./script/console $@
   fi
 }
 
@@ -32,6 +23,24 @@ ss () {
   fi
 }
 
+# My Editor
+alias mvim='~/Dropbox/Vimlander/mvim'
+
+# Fix Vim opening up slowly
+alias vi="/usr/bin/vi -X"
+alias vim="/usr/bin/vim -X"
+
+# Misc
+alias h='history'
+
+# Starting Rails
+alias console='bundle exec rails console'
+alias server='bundle exec rails server'
+alias rs='bundle exec rails s'
+alias rc='bundle exec rails c'
+alias rslolcat='bundle exec rails server -d && tail -f log/* | lolcat'
+
+
 # Logging Rails
 alias tdl='tail -f ./log/development.log'
 alias ttl='tail -f ./log/test.log'
@@ -39,11 +48,11 @@ alias ctl='> ./log/test.log'
 alias cdl='> ./log/development.log'
 
 # Rails Database
-alias rdbm='rake db:migrate'
-alias rdbs='rake db:seed'
+alias rdbm='bundle exec rake db:migrate'
+alias rdbs='bundle exec rake db:seed'
 
 # Rails Tests
-alias rsp='rake spec $1'
+alias rsp='bundle exec rake spec $1'
 
 # Getting around my system
 alias ls='ls -al -G'
@@ -64,3 +73,13 @@ function mkrvmrc () {
   echo "rvm $latest_ruby@$(basename $PWD) --create" > .rvmrc
   source .rvmrc
 }
+
+#Chruby and Ruby Install
+
+alias rinit='ruby-install'
+alias gl='bundle exec gem list'
+alias ge='bundle exec gem env'
+alias bi='bundle install --path ./.bundle/gems'
+
+alias r='bundle exec rake'
+alias sourc='source ~/.bash_profile'
