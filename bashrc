@@ -18,9 +18,9 @@ export HISTCONTROL=erasedups
     YELLOW="\[\033[1;33m\]"
      GREEN="\[\033[0;32m\]"
   LT_GREEN="\[\033[1;32m\]"
-      BLUE="\[\033[0;34m\]"
+      BLUE="\[\033[1;34m\]"
      WHITE="\[\033[1;37m\]"
-    PURPLE="\[\033[1;35m\]"
+    PURPLE="\[\033[1;95m\]"
       CYAN="\[\033[1;36m\]"
      BROWN="\[\033[0;33m\]"
 COLOR_NONE="\[\033[0m\]"
@@ -109,11 +109,12 @@ function set_prompt {
 
   git_prompt="$(parse_git_branch)"
   export CLICOLOR=1
-  export LSCOLORS=gxgxcxdxbxegedabagacad  # cyan directories
-  export PS1="[\w] ${git_prompt}${COLOR_NONE}\n${homebrew_prompt}${CYAN}💀  "
+  export LSCOLORS=Exfxcxdxbxegedabagacad
+  export PS1="${BLUE}[\W] ${git_prompt}${COLOR_NONE}${homebrew_prompt}${PINK} ❡ ${WHITE}"
   setWindowTitle "${PWD/$HOME/~}"
 
 }
+export GREP_OPTIONS='--color=auto'
 
 export PROMPT_COMMAND=set_prompt
 
