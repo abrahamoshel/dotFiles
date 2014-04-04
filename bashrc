@@ -36,10 +36,10 @@ LIGHTNING_BOLT="⚡"
 
 function parse_git_branch {
   branch_pattern="^# On branch ([^${IFS}]*)"
-  remote_pattern_ahead="# Your branch is ahead of"
-  remote_pattern_behind="# Your branch is behind"
-  remote_pattern_ff="# Your branch (.*) can be fast-forwarded."
-  diverge_pattern="# Your branch and (.*) have diverged"
+  remote_pattern_ahead="Your branch is ahead of"
+  remote_pattern_behind="Your branch is behind"
+  remote_pattern_ff="Your branch (.*) can be fast-forwarded."
+  diverge_pattern="Your branch and (.*) have diverged"
 
   git_status="$(git status 2> /dev/null)"
   if [[ ! ${git_status} =~ ${branch_pattern} ]]; then
@@ -85,14 +85,14 @@ function parse_git_branch {
   if [[ ${git_status} =~ ${remote_pattern_ahead} ]]; then
     remote="${YELLOW}${UP_ARROW}"
   elif [[ ${git_status} =~ ${remote_pattern_ff} ]]; then
-    remote_ff="${WHITE}${FF_ARROW}"
+    remote="${WHITE}${FF_ARROW}"
   elif [[ ${git_status} =~ ${remote_pattern_behind} ]]; then
     remote="${YELLOW}${DOWN_ARROW}"
   elif [[ ${git_status} =~ ${diverge_pattern} ]]; then
     remote="${YELLOW}${UD_ARROW}"
   fi
 
-  echo "${remote}${remote_ff}${GREEN}(${branch})${COLOR_NONE}${git_is_dirty}${COLOR_NONE}"
+  echo "${remote}${GREEN}(${branch})${COLOR_NONE}${git_is_dirty}${COLOR_NONE}"
 }
 
 function setWindowTitle {
