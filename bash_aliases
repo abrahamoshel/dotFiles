@@ -58,7 +58,7 @@ alias rsp='bundle exec rake spec $1'
 alias ls='ls -al -G'
 alias d="cd ~/Dropbox"
 alias doc="cd ~/Documents"
-alias woork="cd ~/Dropbox/tukaiz"
+alias woork="cd ~/Work"
 
 # Git Versioning
 alias gs='git status'
@@ -80,6 +80,10 @@ alias rinit='ruby-install'
 alias gl='bundle exec gem list'
 alias ge='bundle exec gem env'
 alias bi='bundle install --path ./.bundle/gems'
+alias cuc='bundle exec cucumber'
+alias flat='bundle exec flatware'
 
 alias r='bundle exec rake'
 alias sourc='source ~/.bash_profile'
+alias rsp='bundle exec rspec'
+

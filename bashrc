@@ -34,19 +34,6 @@ LIGHTNING_BOLT="⚡"
         MIDDOT="•"
      PLUSMINUS="±"
 
-function battery_charge {
-  MINREM=`ioreg -l | grep AvgTimeToEmpty | cut -d= -f 2`
-  if [ "$MINREM" = "" ]; then
-    echo ""
-    #Do nothing, it is a Desktop
-  else
-    /usr/sbin/ioreg -l | awk 'BEGIN{a=0;b=0}
-        $0 ~ "MaxCapacity" {a=$5;next}
-        $0 ~ "CurrentCapacity" {b=$5;nextfile}
-        END{printf("%.2f%%", b/a * 100)}'
-  fi
-
-}
 function parse_git_branch {
   branch_pattern="^# On branch ([^${IFS}]*)"
   remote_pattern_ahead="# Your branch is ahead of"
@@ -67,10 +54,9 @@ function parse_git_branch {
       }
       echo "${PINK}(rebase in progress)${COLOR_NONE} ${sha}"
     }
-    return
   fi
 
-  branch=${BASH_REMATCH[1]}
+  branch=$(git rev-parse --abbrev-ref HEAD)
 
   # Dirty?
   if [[ ! ${git_status} =~ "working directory clean" ]]; then
@@ -122,11 +108,9 @@ function set_prompt {
     homebrew_prompt="${BROWN}Homebrew:${COLOR_NONE} debugging ${HOMEBREW_DEBUG_INSTALL}\n"
 
   git_prompt="$(parse_git_branch)"
-  battery_charge="" #$(battery_charge)"
-  power_right="" #$(printf "%$(($COLUMNS-${#PWD}))s" "${battery_charge}")
   export CLICOLOR=1
   export LSCOLORS=gxgxcxdxbxegedabagacad  # cyan directories
-  export PS1="[\w] ${git_prompt}${COLOR_NONE}${power_right}\n${homebrew_prompt}${CYAN}💀  "
+  export PS1="[\w] ${git_prompt}${COLOR_NONE}\n${homebrew_prompt}${CYAN}💀  "
   setWindowTitle "${PWD/$HOME/~}"
 
 }
@@ -140,25 +124,14 @@ function git-root {
 }
 
 
-# Reveal current or provided folder in Path Finder
-function pf {
-  target_path="$(cd ${1:-"$PWD"} && PWD)"
-  osascript<<END
-tell app "Path Finder"
-  reveal POSIX file("$target_path")
-  activate
-end tell
-END
-}
-
 # Get My Alaises
 if [ -f ~/.vim/bash_aliases ]; then
   . ~/.vim/bash_aliases
 fi
 
 # Auto completion for git
-if [ `brew --prefix`/etc/bash_completion.d/git-completion.bash  ]; then
-    . `brew --prefix`/etc/bash_completion.d/git-completion.bash
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  . $(brew --prefix)/etc/bash_completion
 fi
 
 export BUNDLER_EDITOR=vim
@@ -190,4 +163,29 @@ if [[ -e /usr/local/share/chruby ]]; then
   fi
 fi
 
+# For notes in terminal
+# Finds or creates by name
+n() {
+        $EDITOR ~/notes/"$*".txt
+}
+# Gives list of all notes that have name in the title
+nls() {
+        ls -c ~/notes/ | grep "$*"
+}
 
+# Golang
+export GOPATH=$HOME/.
+export GOROOT=`go env GOROOT`
+export PATH=$GOPATH/bin:$PATH:$GOROOT/bin
+
+# Docker and Docker2Boot
+export DOCKER_HOST=tcp://localhost:4243
+
+hitch() {
+  command hitch "$@"
+  if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
+}
+alias unhitch='hitch -u'
+
+# Uncomment to persist pair info between terminal instances
+hitch
